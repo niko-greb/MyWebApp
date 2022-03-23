@@ -1,0 +1,50 @@
+<h1 class="mb-4"><%= @question.title %></h1>
+
+<time datetime="<%= @question.formatted_created_at %>">
+  <%= @question.formatted_created_at %>
+</time>
+
+<p class="lead my-3">
+  <%= @question.body %>
+</p>
+
+<%= link_to 'Show', question_path(@question), class: 'btn btn-outline-primary' %> 
+<%= link_to 'Edit', edit_question_path(@question), class: 'btn btn-outline-secondary' %>
+<%= link_to 'Destroy', question_path(@question), class: 'btn btn-outline-danger',
+  data: {method: :delete, confirm: 'Are you sure?'} %>
+
+<hr class="my-3">
+
+<%= render 'shared/errors', object: @answer %>
+
+<h2>Write your answer</h2>
+<%= form_with model: [@question, @answer] do |f| %>
+  <div class="mb-3 row">
+    <div class="col-sm-2 col-form-label">
+      <%= f.label :body %>
+    </div>
+
+    <div class="col-sm-10">
+      <%= f.text_area :body, class: 'form-control' %>
+    </div>
+  </div>
+
+  <%= f.submit "Submit answer!", class: 'btn btn-outline-primary' %>
+<% end %>
+
+<h2 class="mt-5" >Answers</h2>
+
+<% @answers.each do |answer| %>
+  <article class="mb-3">
+      <time datetime="<%= answer.formatted_created_at %>">
+        <%= answer.formatted_created_at %>
+      </time>
+
+      <p>
+        <%= answer.body %>
+      </p>
+      <%= link_to 'Edit', edit_question_answer_path(@question, answer),  class: 'btn btn-secondary btn-xs' %>
+      <%= link_to 'Delete', question_answer_path(@question, answer), class: 'btn btn-danger btn-xs',
+      data: {method: :delete, confirm: "Are your sure?" } %>
+    </article>
+<% end %>
